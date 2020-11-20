@@ -11,9 +11,9 @@ from simpletransformers.classification import ClassificationModel
 fold = int(sys.argv[1])
 
 data_folder = './data'
-train_query = pd.read_csv('./data/train.query.tsv', sep='\t', header=None)
+train_query = pd.read_csv('./data/train/train.query.tsv', sep='\t', header=None)
 train_query.columns = ['qid', 'text_a']
-train_reply = pd.read_csv('./data/train.reply.tsv', sep='\t', header=None)
+train_reply = pd.read_csv('./data/train/train.reply.tsv', sep='\t', header=None)
 train_reply.columns = ['qid', 'rid', 'text_b', 'labels']
 train = pd.merge(train_reply, train_query, on='qid', how='left')
 
@@ -37,9 +37,9 @@ model = ClassificationModel('bert',
                             args=train_args)
 model.train_model(train_df, eval_df=eval_df)
 
-test_query = pd.read_csv('./data/test.query.tsv', sep='\t', header=None, encoding="gbk")
+test_query = pd.read_csv('./data/test/test.query.tsv', sep='\t', header=None, encoding="gbk")
 test_query.columns = ['qid', 'text_a']
-test_reply = pd.read_csv('./data/test.reply.tsv', sep='\t', header=None, encoding="gbk")
+test_reply = pd.read_csv('./data/test/test.reply.tsv', sep='\t', header=None, encoding="gbk")
 test_reply.columns = ['qid', 'rid', 'text_b']
 test = pd.merge(test_reply, test_query, on='qid', how='left')
 df_test = test[['text_a', 'text_b']]
